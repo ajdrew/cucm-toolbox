@@ -1,4 +1,5 @@
 module.exports = function (app) {
+    
     // MODULES - INCLUDES
     var xml2js = require('xml2js');
     var parser = new xml2js.Parser();
@@ -72,19 +73,6 @@ module.exports = function (app) {
             // HTTP.REQUEST - RESULTS + RENDER
             soapResponse.on('end', () => {
 
-                // EDIT - SCRUB TEST XML - WORKING
-                // var line1 = xmloriginal.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
-                // var line2 = line1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
-                // var line3 = line2.replace(/<soapenv:Body>/g, '');
-                // var line4 = line3.replace(/<ns:listCssResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
-                // // console.log(line4);
-                // // console.log(spacer);
-                // var lineend1 = line4.replace(/<\/soapenv:Envelope>/g, '');
-                // var lineend2 = lineend1.replace(/<\/soapenv:Body>/g, '');
-                // var lineend3 = lineend2.replace(/<\/ns:listCssResponse>/g, '');
-                // console.log(lineend3);
-                // console.log(spacer);
-
                 // EDIT - SCRUB XML OUTPUT
                 var rmline1 = soapreplyx.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
                 var rmline2 = rmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
@@ -109,19 +97,6 @@ module.exports = function (app) {
                         xmlscrubbed: xmlscrubbed
                     });
                 });
-
-                // XML2JS - 1ST WORKING CODE !!!
-                // parser.parseString(xmlworking, function (err, result) {
-                //   var cssx = result['return']['css'];
-                //   console.log(cssx);
-                //   console.log(spacer);
-                //   res.render('cucmmapper-results.html', {
-                //     title: 'CUCM 2.1',
-                //     soapreply: soapreplyx,
-                //     cucmpub: cucmpub,
-                //     cssx: cssx
-                //   });
-                // });
             });
         });
 

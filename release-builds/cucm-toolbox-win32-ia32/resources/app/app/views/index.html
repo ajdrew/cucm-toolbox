@@ -1,0 +1,126 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>{{title}}</title>
+
+    <!--INCLUDE - CSS-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+        crossorigin="anonymous">
+
+</head>
+
+<body>
+    <!--INCLUDE - JS LIBRARIES -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+
+    <!--INCLUDE - ANGULAR CONTROLLER -->
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('formCtrl', function ($scope) {
+            $scope.cucmpub = "x.x.x.x";
+        });
+    </script>
+
+    <!--BODY - BOOTSTRAP PAGE SETUP -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <!--BODY - BOOTSTRAP NAVBAR -->
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="/">CUCM
+                            <sup>2</sup>
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li class="active">
+                                <a href="/">
+                                    <img src="https://png.icons8.com/marker/office/16" title="Marker" width="16" height="16"> CSS Map</a>
+                            </li>
+                            <li>
+                                <a href="/">
+                                    <img src="https://png.icons8.com/phone/ultraviolet/20" title="Phone" width="16" height="16"> SIP2SIP</a>
+                            </li>
+                            <li>
+                                <a href="/">
+                                    <img src="https://png.icons8.com/bug/color/24" title="Bug" width="16" height="16"> Debugger</a>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="https://{{cucmpub}}/ccmadmin/" target="_blank">{{cucmpub}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <!--BODY - CONTENT-->
+                <div class="row">
+                    <div class="col-md-12" class="pull-left">
+                        <form class="form-horizontal" method="post" action="/cucmmapper/submit" id="cucmmapper">
+                            <!-- INPUT - TEXT-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="cucmpub">CUCM Publisher</label>
+                                <div class="col-md-4">
+                                    <input id="cucmpub" name="cucmpub" type="text" placeholder="x.x.x.x" class="form-control input-md" required="" ng-model="cucmpub">
+                                </div>
+                            </div>
+                            <!-- INPUT - SELECT-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="cucmpub">CUCM Version</label>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="cucmversion" name="cucmversion">
+                                        <option>11.5</option>
+                                        <option>11.0</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- INPUT - TEXT-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="username">AXL Username</label>
+                                <div class="col-md-4">
+                                    <input id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+                                </div>
+                            </div>
+                            <!-- INPUT - PASSWORD-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="password">Password</label>
+                                <div class="col-md-4">
+                                    <input id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+                                </div>
+                            </div>
+                            <!-- INPUT - BUTTON -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="submit"></label>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary" type="submit">Map it!</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
