@@ -36,3 +36,6 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+release-builds/windows-installer/cucm-toolbox-1.0.0-full.nupkg
+release-builds/windows-installer/cucm-toolbox.exe
+release-builds/windows-installer/RELEASES
