@@ -12,6 +12,8 @@ function getInstallerConfig() {
     console.log('creating windows installer')
     const rootPath = path.join('./')
     const outPath = path.join(rootPath, 'release-builds')
+    const icon = path.join(rootPath, 'assets/icons/win/icon.ico')
+    console.log(icon)
 
     return Promise.resolve({
         appDirectory: path.join(outPath, 'cucm-toolbox-win32-ia32'),
@@ -21,6 +23,6 @@ function getInstallerConfig() {
         exe: 'cucm-toolbox.exe',
         setupExe: 'cucm-toolbox.exe',
         loadingGif: path.join(rootPath, 'assets/loader/44frgm.gif'),
-        // setupIcon: path.join(rootPath, 'assets/icons/win/icon.ico')
+        setupIcon: path.join(rootPath, 'assets/icons/win/icon.ico')
     })
 }
