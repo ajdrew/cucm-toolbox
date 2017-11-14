@@ -22,6 +22,31 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
         crossorigin="anonymous"></script>
+    <!-- INCLUDE - JS2PDF LIBRARIES -->
+    <!-- <script type="text/javascript" src="jspdf/tableExport.js"></script>
+    <script type="text/javascript" src="jspdf/jquery.base64.js"></script>
+    <script type="text/javascript" src="jspdf/jspdf/libs/sprintf.js"></script>
+    <script type="text/javascript" src="jspdf/jspdf/jspdf.js"></script>
+    <script type="text/javascript" src="jspdf/jspdf/libs/base64.js"></script> -->
+    <!-- INCLUDE - jsPDF -->
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+    <script>
+        var doc = new jsPDF();
+        var specialElementHandlers = {
+            '#editor': function (element, renderer) {
+                return true;
+            }
+        };
+
+        $('#exportPDF').click(function () {
+            doc.fromHTML($('#listcss').html(), 15, 15, {
+                'width': 170,
+                'elementHandlers': specialElementHandlers
+            });
+            doc.save('css-list-export.pdf');
+        });
+    </script>
+
 
     <!--BODY - BOOTSTRAP PAGE SETUP -->
     <div class="container-fluid">
@@ -71,7 +96,31 @@
                 <!--BODY - DYNAMIC CONTENT-->
                 <div class="row">
                     <div class="col-md-12" class="pull-left">
-                        <table class="table table-hover table-condensed">
+
+                        <!-- BODY - TABLE EXPORT -->
+                        <!-- <p>Export Data:
+                            <a href="#" onClick="$('#listcss').tableExport({type:'pdf',escape:'false'});">
+                                <img src="https://png.icons8.com/pdf/color/16/ffffff">
+                            </a>
+                            <a href="#" onClick="$('#listcss').tableExport({type:'excel',escape:'false'});">
+                                <img src="https://png.icons8.com/xls/color/16/ffffff">
+                            </a>
+                            <a href="#" onClick="$('#listcss').tableExport({type:'csv',escape:'false'});">
+                                <img src="https://png.icons8.com/csv/color/16/ffffff">
+                            </a>
+                        </p> -->
+                        <div class="col-md-1" class="pull-right">
+                            <p>
+                                <button type="button" id="exportPDF" class="btn btn-danger">Export as:
+                                    <img src="https://png.icons8.com/pdf/color/24/ffffff">
+                                </button>
+                            </p>
+                        </div>
+
+
+
+                        <!-- BODY - DYNAMIC TABLE -->
+                        <table id="listcss" class="table table-hover table-condensed">
                             <thread>
                                 <tr>
                                     <th>CSS</th>
