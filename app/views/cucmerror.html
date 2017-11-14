@@ -22,10 +22,14 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
         crossorigin="anonymous"></script>
-    <!-- INCLUDE - jsPDF -->
-    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
 
-
+    <!--INCLUDE - ANGULAR CONTROLLER -->
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('formCtrl', function ($scope) {
+            $scope.cucmpub = "x.x.x.x";
+        });
+    </script>
 
     <!--BODY - BOOTSTRAP PAGE SETUP -->
     <div class="container-fluid">
@@ -66,67 +70,23 @@
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <a>Mapping: {{cucmpub}}</a>
+                                <!-- <a>Mapping: {{cucmpub}}</a> -->
                             </li>
                         </ul>
                     </div>
                 </nav>
 
-                <!--BODY - DYNAMIC CONTENT-->
+                <!--BODY - CONTENT-->
                 <div class="row">
-                    <div class="col-md-12" class="pull-left">
-
-                        <!-- BODY - jsPDF -->
-                        <div id="editor"></div>
-                        <div class="col-md-1" class="pull-right">
-                            <p>
-                                <button type="button" id="exportPDF" class="btn btn-danger">Export as:
-                                    <img src="https://png.icons8.com/pdf/color/24/ffffff">
-                                </button>
-                            </p>
+                    <div class="col-md-4">
+                        <div class="alert alert-danger" role="alert">
+                            There was a firefight!!!! Seriously, you probably just put in the wrong version of CUCM.
                         </div>
-
-                        <!-- BODY - DYNAMIC TABLE -->
-                        <table id="listcss" class="table table-hover table-condensed">
-                            <thread>
-                                <tr>
-                                    <th>CSS</th>
-                                    <th>DESCRIPTION</th>
-                                    <th>PARTITIONS</th>
-                                </tr>
-                            </thread>
-                            <tbody>
-                                {{#each cssx}}
-                                <tr>
-                                    <td>{{this.name}}</td>
-                                    <td>{{this.description}}</td>
-                                    <td>{{this.clause}}</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-        <!-- SCRIPT - jsPDF -->
-        <script>
-            var doc = new jsPDF();
-            var specialElementHandlers = {
-                '#editor': function (element, renderer) {
-                    return true;
-                }
-            };
-            $('#exportPDF').click(function () {
-                doc.fromHTML($('#listcss').html(), 15, 15, {
-                    'width': 170,
-                    'elementHandlers': specialElementHandlers
-                });
-                doc.save('css-list-export.pdf');
-            });
-        </script>
 </body>
 
 </html>
