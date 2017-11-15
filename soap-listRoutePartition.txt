@@ -1,0 +1,15 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/11.5">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ns:listRoutePartition sequence="?">
+         <searchCriteria>
+            <!--Optional:-->
+            <name>%</name>
+         </searchCriteria>
+         <returnedTags uuid="?">
+            <!--Optional:-->
+            <name>?</name>
+         </returnedTags>
+      </ns:listRoutePartition>
+   </soapenv:Body>
+</soapenv:Envelope>
