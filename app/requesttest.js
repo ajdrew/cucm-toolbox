@@ -1,7 +1,8 @@
 // MODULES - INCLUDES
 var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
-var async = require('async');
+// var async = require('async');
+var rp = require('request-promise');
 
 // FORM - DATA COLLECTION
 var cucmpub = '10.37.252.20';
@@ -11,36 +12,24 @@ var password = '!CucmL@b!';
 
 // JS - VARIABLE DEFINITION - GLOBAL
 var authentication = username + ":" + password;
-var soapreplyx = '';
 var cssx = null;
-var spacer = '-----';
-var rmline1 = '';
-var rmline2 = '';
-var rmline3 = '';
-var rmline4 = '';
-var rmbottomup1 = '';
-var rmbottomup2 = '';
-var rmbottomup3 = '';
-var soapreplyp = '';
 var partitionsx = null;
-var rmline1p = '';
-var rmline2p = '';
-var rmline3p = '';
-var rmline4p = '';
-var rmbottomup1p = '';
-var rmbottomup2p = '';
-var rmbottomup3p = '';
+var spacer = '-----';
 
-// HTTP.REQUEST - BUILD CALL - GLOBAL
-var https = require("https");
-var headers = {
-    'SoapAction': 'CUCM:DB ver=' + cucmversion + ' listCss',
-    'Authorization': 'Basic ' + new Buffer(authentication).toString('base64'),
-    'Content-Type': 'text/xml; charset=utf-8'
-};
+//
+// -- BLOCK - CSS AXL CALL --
+//
 
-// SOAP - AXL CALL - CSS
-var soapBody = new Buffer('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/11.5">' +
+// CSS - JS - VARIABLE DEFINITION
+var cssrmline1 = '';
+var cssrmline2 = '';
+var cssrmline3 = '';
+var cssrmline4 = '';
+var cssrmbottomup1 = '';
+var cssrmbottomup2 = '';
+
+// CSS - SOAP - AXL REQUEST
+var cssaxlrequest = new Buffer('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/11.5">' +
     '<soapenv:Header/>' +
     '<soapenv:Body>' +
     '<ns:listCss sequence="?">' +
@@ -56,8 +45,56 @@ var soapBody = new Buffer('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlso
     '</soapenv:Body>' +
     '</soapenv:Envelope>');
 
-// SOAP - AXL CALL - PARTITIONS
-var soapBody2 = new Buffer('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/11.5">' +
+// CSS - HTTP - REQUEST BUILD
+var csshttprequest = {
+    method: 'POST',
+    uri: 'https://' + cucmpub + ':8443/axl/',
+    rejectUnauthorized: false,
+    headers: {
+        'SoapAction': 'CUCM:DB ver=' + cucmversion + ' listCss',
+        'Authorization': 'Basic ' + new Buffer(authentication).toString('base64'),
+        'Content-Type': 'text/xml; charset=utf-8',
+    },
+    body: cssaxlrequest,
+};
+
+// CSS - HTTP - REQUEST
+rp(csshttprequest)
+    .then(function (body) {
+        // console.log(body);
+        var cssrmline1 = body.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
+        var cssrmline2 = cssrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
+        var cssrmline3 = cssrmline2.replace(/<soapenv:Body>/g, '');
+        var cssrmline4 = cssrmline3.replace(/<ns:listCssResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
+        var cssrmbottomup1 = cssrmline4.replace(/<\/soapenv:Envelope>/g, '');
+        var cssrmbottomup2 = cssrmbottomup1.replace(/<\/soapenv:Body>/g, '');
+        var cssxmlscrubbed = cssrmbottomup2.replace(/<\/ns:listCssResponse>/g, '');
+        // console.log(xmlscrubbed);
+        // console.log(spacer);
+        parser.parseString(cssxmlscrubbed, function (err, result) {
+            var cssx = result['return']['css'];
+            return [cssx];
+            // console.log(cssx);
+            // console.log(spacer);
+        });
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
+
+//
+// -- BLOCK - PARTITIONS AXL CALL
+//
+
+// PARTITIONS - JS - VARIABLE DEFINITION
+var partitionsrmline1 = '';
+var partitionsrmline2 = '';
+var partitionsrmline3 = '';
+var partitionsrmline4 = '';
+var partitionsrmbottomup1 = '';
+
+// PARTITIONS - SOAP - AXL REQUEST
+var partitionsaxlrequest = new Buffer('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/11.5">' +
     '<soapenv:Header/>' +
     '<soapenv:Body>' +
     '<ns:listRoutePartition sequence="?">' +
@@ -71,174 +108,42 @@ var soapBody2 = new Buffer('<soapenv:Envelope xmlns:soapenv="http://schemas.xmls
     '</soapenv:Body>' +
     '</soapenv:Envelope>');
 
-// HTTP.REQUEST - OPTIONS - GLOBAL
-var options = {
-    host: cucmpub, // IP ADDRESS OF CUCM PUBLISHER
-    port: 8443, // DEFAULT CISCO SSL PORT
-    path: '/axl/', // AXL URL
-    method: 'POST', // AXL REQUIREMENT OF POST
-    headers: headers, // HEADER VAR
-    rejectUnauthorized: false // REQUIRED TO ACCEPT SELF-SIGNED CERTS
+// PARTITIONS - HTTP - REQUEST BUILD
+var partitionshttprequest = {
+    method: 'POST',
+    uri: 'https://' + cucmpub + ':8443/axl/',
+    rejectUnauthorized: false,
+    headers: {
+        'SoapAction': 'CUCM:DB ver=' + cucmversion + ' listRoutePartition',
+        'Authorization': 'Basic ' + new Buffer(authentication).toString('base64'),
+        'Content-Type': 'text/xml; charset=utf-8',
+    },
+    body: partitionsaxlrequest,
 };
 
-// HTTP.REQUEST - GLOBAL (Doesn't seem to need this line, but it might be useful anyway for pooling?)
-options.agent = new https.Agent(options);
-
-
-async.series([
-    function (callback) {
-
-        // HTTP.REQUEST - OPEN SESSION - CSS
-        var soapRequest = https.request(options, soapResponse => {
-            soapResponse.setEncoding('utf8');
-            soapResponse.on('data', chunk => {
-                soapreplyx += chunk
-            });
-            // HTTP.REQUEST - RESULTS + RENDER
-            soapResponse.on('end', () => {
-
-                // EDIT - SCRUB XML OUTPUT
-                var rmline1 = soapreplyx.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
-                var rmline2 = rmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
-                var rmline3 = rmline2.replace(/<soapenv:Body>/g, '');
-                var rmline4 = rmline3.replace(/<ns:listCssResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
-                var rmbottomup1 = rmline4.replace(/<\/soapenv:Envelope>/g, '');
-                var rmbottomup2 = rmbottomup1.replace(/<\/soapenv:Body>/g, '');
-                var xmlscrubbed = rmbottomup2.replace(/<\/ns:listCssResponse>/g, '');
-                // console.log(xmlscrubbed);
-                // console.log(spacer);
-
-                // XML2JS - TESTING
-                parser.parseString(xmlscrubbed, function (err, result) {
-                    var cssx = result['return']['css'];
-                    callback(err, cssx);
-                    // console.log(cssx);
-                    // console.log(spacer);
-                });
-            });
+// PARTITIONS - HTTP - REQUEST
+rp(partitionshttprequest)
+    .then(function (body) {
+        // console.log(body);
+        var partitionsrmline1 = body.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
+        var partitionsrmline2 = partitionsrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
+        var partitionsrmline3 = partitionsrmline2.replace(/<soapenv:Body>/g, '');
+        var partitionsrmline4 = partitionsrmline3.replace(/<ns:listRoutePartitionResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
+        var partitionsrmbottomup1 = partitionsrmline4.replace(/<\/soapenv:Envelope>/g, '');
+        var partitionsrmbottomup2 = partitionsrmbottomup1.replace(/<\/soapenv:Body>/g, '');
+        var partitionsxmlscrubbed = partitionsrmbottomup2.replace(/<\/ns:listRoutePartitionResponse>/g, '');
+        // console.log(partitionsxmlscrubbed);
+        // console.log(spacer);
+        parser.parseString(partitionsxmlscrubbed, function (err, result) {
+            var partitionsx = result['return']['routePartition'];
+            // console.log(partitionsx);
+            // console.log(spacer);
         });
-
-        // SOAP - SEND AXL CALL - CSS
-        soapRequest.write(soapBody);
-        soapRequest.end();
-    },
-    function (callback) {
-        // SOAP - SEND AXL CALL - PARTITIONS
-        var soapRequest2 = https.request(options, soapResponse2 => {
-            soapResponse2.setEncoding('utf8');
-            soapResponse2.on('data', chunk => {
-                soapreplyp += chunk
-            });
-            // HTTP.REQUEST - RESULTS + RENDER
-            soapResponse2.on('end', () => {
-                console.log(soapreplyp);
-
-                // EDIT - SCRUB XML OUTPUT
-                var rmline1p = soapreplyp.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
-                var rmline2p = rmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
-                var rmline3p = rmline2.replace(/<soapenv:Body>/g, '');
-                var rmline4p = rmline3.replace(/<ns:listRoutePartition\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
-                var rmbottomup1p = rmline4.replace(/<\/soapenv:Envelope>/g, '');
-                var rmbottomup2p = rmbottomup1.replace(/<\/soapenv:Body>/g, '');
-                var xmlscrubbedp = rmbottomup2.replace(/<\/ns:listRoutePartition>/g, '');
-                console.log(xmlscrubbedp);
-                console.log(spacer);
-
-                // XML2JS - TESTING
-                parser.parseString(xmlscrubbedp, function (err, result) {
-                    var partitionsx = result['return']['css'];
-                    callback(err, partitionsx);
-                    //   console.log(partitionsx);
-                    //   console.log(spacer);
-                });
-            });
-        });
-        // SOAP - SEND AXL CALL - PARTITIONS
-        soapRequest2.write(soapBody2);
-        soapRequest2.end();
-    },
-
-    function (err, results) {
-        console.log(cssx);
-        console.log(partitionsx);
-    }
-]);
-
-// // HTTP.REQUEST - OPEN SESSION - CSS
-// var soapRequest = https.request(options, soapResponse => {
-//     soapResponse.setEncoding('utf8');
-//     soapResponse.on('data', chunk => {
-//         soapreplyx += chunk
-//     });
-//     // HTTP.REQUEST - RESULTS + RENDER
-//     soapResponse.on('end', () => {
-
-//         // EDIT - SCRUB XML OUTPUT
-//         var rmline1 = soapreplyx.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
-//         var rmline2 = rmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
-//         var rmline3 = rmline2.replace(/<soapenv:Body>/g, '');
-//         var rmline4 = rmline3.replace(/<ns:listCssResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
-//         var rmbottomup1 = rmline4.replace(/<\/soapenv:Envelope>/g, '');
-//         var rmbottomup2 = rmbottomup1.replace(/<\/soapenv:Body>/g, '');
-//         var xmlscrubbed = rmbottomup2.replace(/<\/ns:listCssResponse>/g, '');
-//         // console.log(xmlscrubbed);
-//         // console.log(spacer);
-
-//         // XML2JS - TESTING
-//         parser.parseString(xmlscrubbed, function (err, result) {
-//             var cssx = result['return']['css'];
-//             console.log(cssx);
-//             //   console.log(spacer);
-//             complete();
-//         });
-//     });
-// });
-
-// SOAP - SEND AXL CALL - CSS
-// soapRequest.write(soapBody);
-// soapRequest.end();
-
-// SOAP - SEND AXL CALL - PARTITIONS
-// var soapRequest2 = https.request(options, soapResponse2 => {
-//     soapResponse2.setEncoding('utf8');
-//     soapResponse2.on('data', chunk => {
-//         soapreplyp += chunk
-//     });
-//     // HTTP.REQUEST - RESULTS + RENDER
-//     soapResponse2.on('end', () => {
-//         console.log(soapreplyp);
-
-//         // EDIT - SCRUB XML OUTPUT
-//         var rmline1p = soapreplyp.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
-//         var rmline2p = rmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
-//         var rmline3p = rmline2.replace(/<soapenv:Body>/g, '');
-//         var rmline4p = rmline3.replace(/<ns:listRoutePartition\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
-//         var rmbottomup1p = rmline4.replace(/<\/soapenv:Envelope>/g, '');
-//         var rmbottomup2p = rmbottomup1.replace(/<\/soapenv:Body>/g, '');
-//         var xmlscrubbedp = rmbottomup2.replace(/<\/ns:listRoutePartition>/g, '');
-//         console.log(xmlscrubbedp);
-//         console.log(spacer);
-
-//         // XML2JS - TESTING
-//         parser.parseString(xmlscrubbedp, function (err, result) {
-//             var partitionsx = result['return']['css'];
-//             //   console.log(partitionsx);
-//             //   console.log(spacer);
-//             complete();
-//         });
-//     });
-// });
-// // SOAP - SEND AXL CALL - PARTITIONS
-// soapRequest2.write(soapBody2);
-// soapRequest2.end();
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
 
 // PAGE - RENDER
-// function complete() {
-//     if (cssx !== null) {
-//         console.log('Got cssx properly');
-//         console.log(spacer);
-//         console.log('Got partitionsx properly');
-//     } else {
-//         console.log('No dice...')
-//     }
-// };
+console.log(cssx);
+console.log(partitionsx);
