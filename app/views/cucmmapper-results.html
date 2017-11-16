@@ -86,7 +86,7 @@
                             </p>
                         </div>
 
-                        <!-- BODY - DYNAMIC TABLE -->
+                        <!-- BODY - DYNAMIC TABLE - CSS -->
                         <table id="listcss" class="table table-hover table-condensed">
                             <thread>
                                 <tr>
@@ -101,6 +101,22 @@
                                     <td>{{this.name}}</td>
                                     <td>{{this.description}}</td>
                                     <td>{{this.clause}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                        <!-- BODY - DYNAMIC TABLE - PARTITIONS -->
+                        <table id="listcss" class="table table-hover table-condensed">
+                            <thread>
+                                <tr>
+                                    <th>PARTITION</th>
+                                </tr>
+                            </thread>
+                            <tbody>
+                                {{#each partitionsx}}
+                                <tr>
+                                    <td>{{this.name}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
