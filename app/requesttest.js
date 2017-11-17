@@ -1,7 +1,6 @@
 // MODULES - INCLUDES
 var xml2js = require('xml2js');
 var parser = new xml2js.Parser();
-// var async = require('async');
 var rp = require('request-promise');
 
 // FORM - DATA COLLECTION
@@ -61,7 +60,6 @@ var csshttprequest = {
 // CSS - HTTP - REQUEST
 rp(csshttprequest)
     .then(function (body) {
-        // console.log(body);
         var cssrmline1 = body.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
         var cssrmline2 = cssrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
         var cssrmline3 = cssrmline2.replace(/<soapenv:Body>/g, '');
@@ -69,13 +67,11 @@ rp(csshttprequest)
         var cssrmbottomup1 = cssrmline4.replace(/<\/soapenv:Envelope>/g, '');
         var cssrmbottomup2 = cssrmbottomup1.replace(/<\/soapenv:Body>/g, '');
         var cssxmlscrubbed = cssrmbottomup2.replace(/<\/ns:listCssResponse>/g, '');
-        // console.log(xmlscrubbed);
-        // console.log(spacer);
         parser.parseString(cssxmlscrubbed, function (err, result) {
             var cssx = result['return']['css'];
-            return [cssx];
             // console.log(cssx);
             // console.log(spacer);
+            
         });
     })
     .catch(function (err) {
@@ -124,7 +120,6 @@ var partitionshttprequest = {
 // PARTITIONS - HTTP - REQUEST
 rp(partitionshttprequest)
     .then(function (body) {
-        // console.log(body);
         var partitionsrmline1 = body.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
         var partitionsrmline2 = partitionsrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
         var partitionsrmline3 = partitionsrmline2.replace(/<soapenv:Body>/g, '');
@@ -132,8 +127,6 @@ rp(partitionshttprequest)
         var partitionsrmbottomup1 = partitionsrmline4.replace(/<\/soapenv:Envelope>/g, '');
         var partitionsrmbottomup2 = partitionsrmbottomup1.replace(/<\/soapenv:Body>/g, '');
         var partitionsxmlscrubbed = partitionsrmbottomup2.replace(/<\/ns:listRoutePartitionResponse>/g, '');
-        // console.log(partitionsxmlscrubbed);
-        // console.log(spacer);
         parser.parseString(partitionsxmlscrubbed, function (err, result) {
             var partitionsx = result['return']['routePartition'];
             // console.log(partitionsx);
@@ -145,5 +138,6 @@ rp(partitionshttprequest)
     });
 
 // PAGE - RENDER
+// console.log(csss);
 console.log(cssx);
 console.log(partitionsx);

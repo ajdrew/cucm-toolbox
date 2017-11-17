@@ -96,7 +96,7 @@
                                 </tr>
                             </thread>
                             <tbody>
-                                {{#each cssx}}
+                                {{#each cssq}}
                                 <tr>
                                     <td>{{this.name}}</td>
                                     <td>{{this.description}}</td>
@@ -114,13 +114,17 @@
                                 </tr>
                             </thread>
                             <tbody>
-                                {{#each partitionsx}}
+                                {{#each partitionsq}}
                                 <tr>
                                     <td>{{this.name}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
                         </table>
+                        <p>-----CSS-----</p>
+                        {{cssq}}
+                        <p>-----PARTITIONS------</p>
+                        {{partitionsq}}
                     </div>
                 </div>
             </div>
