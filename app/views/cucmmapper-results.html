@@ -88,6 +88,7 @@
 
                         <!-- BODY - DYNAMIC TABLE - CSS -->
                         <table id="listcss" class="table table-hover table-condensed">
+                            <caption>CSS List</caption>
                             <thread>
                                 <tr>
                                     <th>CSS</th>
@@ -96,7 +97,7 @@
                                 </tr>
                             </thread>
                             <tbody>
-                                {{#each cssq}}
+                                {{#each css}}
                                 <tr>
                                     <td>{{this.name}}</td>
                                     <td>{{this.description}}</td>
@@ -108,45 +109,106 @@
 
                         <!-- BODY - DYNAMIC TABLE - PARTITIONS -->
                         <table id="listcss" class="table table-hover table-condensed">
+                            <caption>Partition List</caption>
                             <thread>
                                 <tr>
                                     <th>PARTITION</th>
                                 </tr>
                             </thread>
                             <tbody>
-                                {{#each partitionsq}}
+                                {{#each partitions}}
                                 <tr>
                                     <td>{{this.name}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
                         </table>
-                        <p>-----CSS-----</p>
-                        {{cssq}}
-                        <p>-----PARTITIONS------</p>
-                        {{partitionsq}}
+
+                        <!-- BODY - DYNAMIC TABLE - TRANSPATTERNS -->
+                        <table id="listcss" class="table table-hover table-condensed">
+                            <caption>Translation Pattern List (Also includes Intercom Translation Patterns)</caption>
+                            <thread>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>Description</th>
+                                    <th>Partition</th>
+                                </tr>
+                            </thread>
+                            <tbody>
+                                {{#each transpatterns}}
+                                <tr>
+                                    <td>{{this.pattern}}</td>
+                                    <td>{{this.description}}</td>
+                                    <td>{{this.routePartitionName}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                        <!-- BODY - DYNAMIC TABLE - DEVICES -->
+                        <table id="listcss" class="table table-hover table-condensed">
+                            <caption>Device List</caption>
+                            <thread>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>Description</th>
+                                    <th>Partition</th>
+                                </tr>
+                            </thread>
+                            <tbody>
+                                {{#each devices}}
+                                <tr>
+                                    <td>{{this.pattern}}</td>
+                                    <td>{{this.description}}</td>
+                                    <td>{{this.routePartitionName}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
+                        <!-- BODY - DYNAMIC TABLE - LINES -->
+                        <table id="listcss" class="table table-hover table-condensed">
+                            <caption>Line List</caption>
+                            <thread>
+                                <tr>
+                                    <th>Pattern</th>
+                                    <th>Description</th>
+                                    <th>Partition</th>
+                                </tr>
+                            </thread>
+                            <tbody>
+                                {{#each devices}}
+                                <tr>
+                                    <td>{{this.pattern}}</td>
+                                    <td>{{this.description}}</td>
+                                    <td>{{this.routePartitionName}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-        <!-- SCRIPT - jsPDF -->
-        <script>
-            var doc = new jsPDF();
-            var specialElementHandlers = {
-                '#editor': function (element, renderer) {
-                    return true;
-                }
-            };
-            $('#exportPDF').click(function () {
-                doc.fromHTML($('#listcss').html(), 15, 15, {
-                    'width': 170,
-                    'elementHandlers': specialElementHandlers
-                });
-                doc.save('css-list-export.pdf');
+    <!-- SCRIPT - jsPDF -->
+    <script>
+        var doc = new jsPDF();
+        var specialElementHandlers = {
+            '#editor': function (element, renderer) {
+                return true;
+            }
+        };
+        $('#exportPDF').click(function () {
+            doc.fromHTML($('#listcss').html(), 15, 15, {
+                'width': 170,
+                'elementHandlers': specialElementHandlers
             });
-        </script>
+            doc.save('css-list-export.pdf');
+        });
+    </script>
 </body>
 
 </html>

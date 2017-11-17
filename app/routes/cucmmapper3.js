@@ -17,14 +17,9 @@ module.exports = function (app) {
         // JS - VARIABLE DEFINITION - GLOBAL
         var authentication = username + ":" + password;
         var cssx = null;
-        var cssq = null;
         var partitionsx = null;
-        var partitionsq = null;
+        var trnaspatternsx = null;
         var spacer = '-----';
-
-        //
-        // -- BLOCK - CSS AXL CALL --
-        //
 
         // CSS - JS - VARIABLE DEFINITION
         var cssrmline1 = '';
@@ -64,35 +59,6 @@ module.exports = function (app) {
             body: cssaxlrequest,
         };
 
-        // CSS - HTTP - REQUEST
-        var csss = function () {
-            rp(csshttprequest)
-                .then(function (body) {
-                    // console.log(body);
-                    var cssrmline1 = body.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
-                    var cssrmline2 = cssrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
-                    var cssrmline3 = cssrmline2.replace(/<soapenv:Body>/g, '');
-                    var cssrmline4 = cssrmline3.replace(/<ns:listCssResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
-                    var cssrmbottomup1 = cssrmline4.replace(/<\/soapenv:Envelope>/g, '');
-                    var cssrmbottomup2 = cssrmbottomup1.replace(/<\/soapenv:Body>/g, '');
-                    var cssxmlscrubbed = cssrmbottomup2.replace(/<\/ns:listCssResponse>/g, '');
-                    // console.log(xmlscrubbed);
-                    // console.log(spacer);
-                    parser.parseString(cssxmlscrubbed, function (err, result) {
-                        var cssx = result['return']['css'];
-                        console.log(cssx);
-                        // console.log(spacer);
-                    });
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
-        };
-
-        //
-        // -- BLOCK - PARTITIONS AXL CALL
-        //
-
         // PARTITIONS - JS - VARIABLE DEFINITION
         var partitionsrmline1 = '';
         var partitionsrmline2 = '';
@@ -128,37 +94,103 @@ module.exports = function (app) {
             body: partitionsaxlrequest,
         };
 
-        // PARTITIONS - HTTP - REQUEST
-        var partitionss = function () {
-            rp(partitionshttprequest)
-                .then(function (body) {
-                    // console.log(body);
-                    var partitionsrmline1 = body.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
-                    var partitionsrmline2 = partitionsrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
-                    var partitionsrmline3 = partitionsrmline2.replace(/<soapenv:Body>/g, '');
-                    var partitionsrmline4 = partitionsrmline3.replace(/<ns:listRoutePartitionResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
-                    var partitionsrmbottomup1 = partitionsrmline4.replace(/<\/soapenv:Envelope>/g, '');
-                    var partitionsrmbottomup2 = partitionsrmbottomup1.replace(/<\/soapenv:Body>/g, '');
-                    var partitionsxmlscrubbed = partitionsrmbottomup2.replace(/<\/ns:listRoutePartitionResponse>/g, '');
-                    // console.log(partitionsxmlscrubbed);
-                    // console.log(spacer);
-                    parser.parseString(partitionsxmlscrubbed, function (err, result) {
-                        var partitionsx = result['return']['routePartition'];
-                        console.log(partitionsx);
-                        // console.log(spacer);
-                    });
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
+        // TRANSPATTERNS - JS - VARIABLE DEFINITION
+        var transpatternsrmline1 = '';
+        var transpatternsrmline2 = '';
+        var transpatternsrmline3 = '';
+        var transpatternsrmline4 = '';
+        var transpatternsrmbottomup1 = '';
+
+        // TRANSPATTERNS - SOAP - AXL REQUEST
+        var transpatternsaxlrequest = new Buffer('<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns="http://www.cisco.com/AXL/API/11.5">' +
+            '<soapenv:Header/>' +
+            '<soapenv:Body>' +
+            '<ns:listTransPattern sequence="?">' +
+            '<searchCriteria>' +
+            '<pattern>%</pattern>' +
+            '</searchCriteria>' +
+            '<returnedTags uuid="?">' +
+            '<pattern>?</pattern>' +
+            '<description>?</description>' +
+            '<routePartitionName>?</routePartitionName>' +
+            '</returnedTags>' +
+            '</ns:listTransPattern>' +
+            '</soapenv:Body>' +
+            '</soapenv:Envelope>');
+
+        // TRANSPATTERNS - HTTP - REQUEST BUILD
+        var transpatternshttprequest = {
+            method: 'POST',
+            uri: 'https://' + cucmpub + ':8443/axl/',
+            rejectUnauthorized: false,
+            headers: {
+                'SoapAction': 'CUCM:DB ver=' + cucmversion + ' listTransPattern',
+                'Authorization': 'Basic ' + new Buffer(authentication).toString('base64'),
+                'Content-Type': 'text/xml; charset=utf-8',
+            },
+            body: transpatternsaxlrequest,
         };
 
-        // PAGE - RENDER
-        res.render('cucmmapper-results.html', {
-            title: 'CUCM Toolbox',
-            cucmpub: cucmpub,
-            cssq: csss(),
-            partitionsq: partitionss(),
-        });
+        // CHAINED REQUESTS + OUTPUT
+        // CHAIN 1 - CSS REQUEST
+        rp(csshttprequest)
+            .then(function (resultcss) {
+                var cssrmline1 = resultcss.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
+                var cssrmline2 = cssrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
+                var cssrmline3 = cssrmline2.replace(/<soapenv:Body>/g, '');
+                var cssrmline4 = cssrmline3.replace(/<ns:listCssResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
+                var cssrmbottomup1 = cssrmline4.replace(/<\/soapenv:Envelope>/g, '');
+                var cssrmbottomup2 = cssrmbottomup1.replace(/<\/soapenv:Body>/g, '');
+                var cssxmlscrubbed = cssrmbottomup2.replace(/<\/ns:listCssResponse>/g, '');
+                parser.parseString(cssxmlscrubbed, function (err, result) {
+                    var cssx = result['return']['css'];
+                    // console.log(cssx);
+
+                    // CHAIN 2 - PARTITIONS REQUEST
+                    return rp(partitionshttprequest)
+                        .then(function (resultpartitions) {
+                            var partitionsrmline1 = resultpartitions.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
+                            var partitionsrmline2 = partitionsrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
+                            var partitionsrmline3 = partitionsrmline2.replace(/<soapenv:Body>/g, '');
+                            var partitionsrmline4 = partitionsrmline3.replace(/<ns:listRoutePartitionResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
+                            var partitionsrmbottomup1 = partitionsrmline4.replace(/<\/soapenv:Envelope>/g, '');
+                            var partitionsrmbottomup2 = partitionsrmbottomup1.replace(/<\/soapenv:Body>/g, '');
+                            var partitionsxmlscrubbed = partitionsrmbottomup2.replace(/<\/ns:listRoutePartitionResponse>/g, '');
+                            parser.parseString(partitionsxmlscrubbed, function (err, result) {
+                                var partitionsx = result['return']['routePartition'];
+                                // console.log(cssx);
+                                // console.log(partitionsx);
+
+                                // CHAIN 3 - TRANSPATTERNS REQUEST
+                                return rp(transpatternshttprequest)
+                                    .then(function (resulttranspatterns) {
+                                        var transpatternsrmline1 = resulttranspatterns.replace(/<\?xml\sversion='1\.0'\sencoding='utf-8'\?>/g, '');
+                                        var transpatternsrmline2 = transpatternsrmline1.replace(/<soapenv:Envelope\sxmlns:soapenv="http:\/\/schemas.xmlsoap.org\/soap\/envelope\/">/g, '');
+                                        var transpatternsrmline3 = transpatternsrmline2.replace(/<soapenv:Body>/g, '');
+                                        var transpatternsrmline4 = transpatternsrmline3.replace(/<ns:listTransPatternResponse\sxmlns:ns="http:\/\/www\.cisco\.com\/AXL\/API\/[0-9]*\.[0-9]">/g, '');
+                                        var transpatternsrmbottomup1 = transpatternsrmline4.replace(/<\/soapenv:Envelope>/g, '');
+                                        var transpatternsrmbottomup2 = transpatternsrmbottomup1.replace(/<\/soapenv:Body>/g, '');
+                                        var transpatternsrmspecial = transpatternsrmbottomup2.replace(/<\/ns:listTransPatternResponse>/g, '');
+                                        var transpatternsxmlscrubbed = transpatternsrmspecial.replace(/<routePartitionName\suuid="{........-....-....-....-............}">/g, '<routePartitionName>');
+                                        parser.parseString(transpatternsxmlscrubbed, function (err, result) {
+                                            var transpatternsx = result['return']['transPattern'];
+                                            // console.log(cssx);
+                                            // console.log(partitionsx);
+                                            // console.log(transpatternsx);
+
+                                            // PAGE - RENDER ALL RESULTS
+                                            res.render('cucmmapper-results.html', {
+                                                title: 'CUCM Toolbox',
+                                                cucmpub: cucmpub,
+                                                css: cssx,
+                                                partitions: partitionsx,
+                                                transpatterns: transpatternsx,
+                                            })
+                                        });
+                                    })
+                            });
+                        })
+                });
+            })
     });
 }
