@@ -23,7 +23,7 @@ function createWindow () {
     height: 720,
     icon: path.join(__dirname, 'assets/icons/png/64x64.png')
   });
-  // win.maximize();
+  win.maximize();
 
   // and load the index.html of the app.
   win.loadURL('http://localhost:3000');
