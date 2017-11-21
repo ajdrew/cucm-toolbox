@@ -4,10 +4,15 @@ var parser = new xml2js.Parser();
 var rp = require('request-promise');
 
 // FORM - DATA COLLECTION
-var cucmpub = '192.168.204.10';
-var cucmversion = '11.5';
-var username = 'ajp-axl-test';
-var password = 'wordpass@cucm';
+// var cucmpub = '192.168.204.10';
+// var cucmversion = '11.5';
+// var username = 'ajp-axl-test';
+// var password = 'wordpass@cucm';
+
+var cucmpub = '10.37.252.20';
+var cucmversion = '11.0';
+var username = 'WebAdmin';
+var password = '!CucmL@b!';
 
 // JS - VARIABLE DEFINITION - GLOBAL
 var authentication = username + ":" + password;
@@ -15,6 +20,7 @@ var cssx = null;
 var partitionsx = null;
 var trnaspatternsx = null;
 var spacer = '-----';
+var resultObject = null;
 
 // CSS - JS - VARIABLE DEFINITION
 var cssrmline1 = '';
@@ -171,7 +177,19 @@ rp(csshttprequest)
                                     var transpatternsx = result['return']['transPattern'];
                                     // console.log(cssx);
                                     // console.log(partitionsx);
-                                    // console.log(transpatternsx);
+                                    console.log(transpatternsx);
+
+                                    function search(nameKey, myArray){
+                                        for (var i=0; i < myArray.length; i++) {
+                                            if (myArray[i].routePartitionName === nameKey) {
+                                                return myArray[i];
+                                            }
+                                        }
+                                    }
+
+                                    var resultObject = search("DNR_52_Gwinn_Site-PT", transpatternsx);
+                                    console.log(spacer);
+                                    console.log(resultObject);
 
                                     // PAGE - RENDER ALL RESULTS
                                     // res.render('cucmmapper-results.html', {
