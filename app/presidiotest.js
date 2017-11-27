@@ -178,18 +178,40 @@ rp(csshttprequest)
                                     // console.log(cssx);
                                     // console.log(partitionsx);
                                     console.log(transpatternsx);
+                                    console.log(spacer);
 
-                                    function search(nameKey, myArray){
-                                        for (var i=0; i < myArray.length; i++) {
-                                            if (myArray[i].routePartitionName === nameKey) {
-                                                return myArray[i];
+
+                                    // FUNCTION - FILTER FOR TRANSLATION PATTERNS TO MATCH A PARTITION
+                                    function filter(data, key) {
+                                        var patterns = [];
+
+                                        for (var i = 0; i < data.length; i++) {
+                                            var routePartitionNames = data[i].routePartitionName;
+                                            var currentPatterns = data[i].pattern;
+
+                                            if (!Array.isArray(routePartitionNames) ||
+                                                routePartitionNames.length === 0 ||
+                                                routePartitionNames.indexOf(key) < 0
+                                            ) {
+                                                continue;
+                                            }
+
+                                            // key found in current routePartitionName
+                                            for (var j = 0; j < currentPatterns.length; j++) {
+                                                var currentPattern = currentPatterns[j];
+                                                if (patterns.indexOf(currentPattern) < 0) {
+                                                    patterns.push(currentPattern);
+                                                }
                                             }
                                         }
+                                        return patterns;
                                     }
 
-                                    var resultObject = search("DNR_52_Gwinn_Site-PT", transpatternsx);
-                                    console.log(spacer);
-                                    console.log(resultObject);
+                                    let queryTranspatternsx = filter(transpatternsx, 'DOC_61_MTF_Site-PT');
+                                    console.log(queryTranspatternsx);
+
+
+
 
                                     // PAGE - RENDER ALL RESULTS
                                     // res.render('cucmmapper-results.html', {
