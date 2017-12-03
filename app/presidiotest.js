@@ -4,15 +4,15 @@ var parser = new xml2js.Parser();
 var rp = require('request-promise');
 
 // FORM - DATA COLLECTION
-// var cucmpub = '192.168.204.10';
-// var cucmversion = '11.5';
-// var username = 'ajp-axl-test';
-// var password = 'wordpass@cucm';
+var cucmpub = '192.168.204.10';
+var cucmversion = '11.5';
+var username = 'ajp-axl-test';
+var password = 'wordpass@cucm';
 
-var cucmpub = '10.37.252.20';
-var cucmversion = '11.0';
-var username = 'WebAdmin';
-var password = '!CucmL@b!';
+// var cucmpub = '10.37.252.20';
+// var cucmversion = '11.0';
+// var username = 'WebAdmin';
+// var password = '!CucmL@b!';
 
 // JS - VARIABLE DEFINITION - GLOBAL
 var authentication = username + ":" + password;
