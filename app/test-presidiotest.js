@@ -160,7 +160,9 @@ rp(csshttprequest)
                     parser.parseString(partitionsxmlscrubbed, function (err, result) {
                         var partitionsx = result['return']['routePartition'];
                         // console.log(cssx);
+                        // console.log(spacer);
                         // console.log(partitionsx);
+                        // console.log(spacer);
 
                         // CHAIN 3 - TRANSPATTERNS REQUEST
                         return rp(transpatternshttprequest)
@@ -175,40 +177,20 @@ rp(csshttprequest)
                                 var transpatternsxmlscrubbed = transpatternsrmspecial.replace(/<routePartitionName\suuid="{........-....-....-....-............}">/g, '<routePartitionName>');
                                 parser.parseString(transpatternsxmlscrubbed, function (err, result) {
                                     var transpatternsx = result['return']['transPattern'];
-                                    // console.log(cssx);
-                                    // console.log(partitionsx);
-                                    console.log(transpatternsx);
+                                    console.log(cssx);
                                     console.log(spacer);
+                                    console.log(partitionsx);
+                                    console.log(spacer);
+                                    console.log(transpatternsx);
+                                    // console.log(spacer);
 
 
-                                    // FUNCTION - FILTER FOR TRANSLATION PATTERNS TO MATCH A PARTITION
-                                    function filter(data, key) {
-                                        var patterns = [];
+                                    // FUNCTION - ARRAY COMBINATION
+                                    // routes = new Map,
+                                    // result = arr1.map(o => (routes.set(o.route, {}), Object.assign(routes.get(o.route), o, { pattern: [] })));
+                                    // arr2.forEach(o => routes.get(o.route).pattern.push(o.pattern));
+                                    // console.log(result);
 
-                                        for (var i = 0; i < data.length; i++) {
-                                            var routePartitionNames = data[i].routePartitionName;
-                                            var currentPatterns = data[i].pattern;
-
-                                            if (!Array.isArray(routePartitionNames) ||
-                                                routePartitionNames.length === 0 ||
-                                                routePartitionNames.indexOf(key) < 0
-                                            ) {
-                                                continue;
-                                            }
-
-                                            // key found in current routePartitionName
-                                            for (var j = 0; j < currentPatterns.length; j++) {
-                                                var currentPattern = currentPatterns[j];
-                                                if (patterns.indexOf(currentPattern) < 0) {
-                                                    patterns.push(currentPattern);
-                                                }
-                                            }
-                                        }
-                                        return patterns;
-                                    }
-
-                                    let queryTranspatternsx = filter(transpatternsx, 'DOC_61_MTF_Site-PT');
-                                    console.log(queryTranspatternsx);
 
 
 
