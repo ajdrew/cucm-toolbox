@@ -26,7 +26,7 @@ app.get('/', function (req, res) {
 })
 
 // EXPRESS ROUTING - INCLUDE - CUCM MAPPER
-var routingextensions = require('./routes/cucmmapper3.js')(app);
+var routingextensions = require('./routes/cucmmapper.js')(app);
 
 // APP - START
 app.listen(3000, function () {

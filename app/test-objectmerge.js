@@ -165,68 +165,19 @@ console.log(combo);
 console.log("-----");
 
 
+// FUNCTION - RENAME OBJECT KEYS
+var i;
+for(i = 0; i < combo.length; i++){
+    combo[i].partition = combo[i]['name'];
+    delete combo[i].name;
+}
+console.log(combo);
+console.log("-----");
 
-// function combine(arr) {
-//     var combined = arr.reduce(function (result, item) {
-//         var current = result[item.level];
-
-//         result[item.level] = !current ? item : {
-//             level: item.level,
-//             price: current.price + item.price,
-//             quantity: current.quantity + item.quantity,
-//             seats: current.seats + ',' + item.seats
-//         };
-
-//         return result;
-//     }, {});
-
-//     return Object.keys(combined).map(function (key) {
-//         return combined[key];
-//     });
-// }
-
-// var SeatWithCat = [{
-//     "level": "Level II",
-//     "price": 5,
-//     "quantity": 1,
-//     "seats": "B3"
-// }, {
-//     "level": "Level II",
-//     "price": 5,
-//     "quantity": 1,
-//     "seats": "B1"
-// }, {
-//     "level": "Level I",
-//     "price": 10,
-//     "quantity": 1,
-//     "seats": "A2"
-// }, {
-//     "level": "Level III",
-//     "price": 30,
-//     "quantity": 1,
-//     "seats": "C1"
-// }, {
-//     "level": "Level III",
-//     "price": 30,
-//     "quantity": 1,
-//     "seats": "C2"
-// }, {
-//     "level": "Level V",
-//     "price": 50,
-//     "quantity": 1,
-//     "seats": "E1"
-// }, {
-//     "level": "Level II",
-//     "price": 5,
-//     "quantity": 1,
-//     "seats": "B2"
-// }, {
-//     "level": "Level VI",
-//     "price": 2,
-//     "quantity": 1,
-//     "seats": "F1"
-// }];
-
-// var result = combine(SeatWithCat);
-
-// console.log(result);
+var i;
+for(i = 0; i < combo.length; i++){
+    combo[i].translationpatterns = combo[i]['pattern'];
+    delete combo[i].pattern;
+}
+console.log(combo);
+console.log("-----");

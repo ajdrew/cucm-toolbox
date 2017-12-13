@@ -77,14 +77,14 @@
                     <div class="col-md-12" class="pull-left">
 
                         <!-- BODY - jsPDF -->
-                        <div id="editor"></div>
+                        <!-- <div id="editor"></div>
                         <div class="col-md-1" class="pull-right">
                             <p>
                                 <button type="button" id="exportPDF" class="btn btn-danger">Export as:
                                     <img src="https://png.icons8.com/pdf/color/24/ffffff">
                                 </button>
                             </p>
-                        </div>
+                        </div> -->
 
                         <!-- BODY - DYNAMIC TABLE - CSS -->
                         <table id="listcss" class="table table-hover table-condensed">
@@ -92,16 +92,14 @@
                             <thread>
                                 <tr>
                                     <th>CSS</th>
-                                    <th>DESCRIPTION</th>
                                     <th>PARTITIONS</th>
                                 </tr>
                             </thread>
                             <tbody>
-                                {{#each css}}
+                                {{#each csstable}}
                                 <tr>
-                                    <td>{{this.name}}</td>
-                                    <td>{{this.description}}</td>
-                                    <td>{{this.clause}}</td>
+                                    <td>{{this.css}}</td>
+                                    <td>{{this.partitions}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -113,75 +111,18 @@
                             <thread>
                                 <tr>
                                     <th>PARTITION</th>
+                                    <th>TRANSLATION-PATTERNS</th>
+                                    <th>ROUTE-PATTERNS</th>
+                                    <th>LINES</th>
                                 </tr>
                             </thread>
                             <tbody>
-                                {{#each partitions}}
+                                {{#each partitionstable}}
                                 <tr>
-                                    <td>{{this.name}}</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-
-                        <!-- BODY - DYNAMIC TABLE - TRANSPATTERNS -->
-                        <table id="listcss" class="table table-hover table-condensed">
-                            <caption>Translation Pattern List (Also includes Intercom Translation Patterns)</caption>
-                            <thread>
-                                <tr>
-                                    <th>Pattern</th>
-                                    <th>Description</th>
-                                    <th>Partition</th>
-                                </tr>
-                            </thread>
-                            <tbody>
-                                {{#each transpatterns}}
-                                <tr>
-                                    <td>{{this.pattern}}</td>
-                                    <td>{{this.description}}</td>
-                                    <td>{{this.routePartitionName}}</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-
-                        <!-- BODY - DYNAMIC TABLE - DEVICES -->
-                        <table id="listcss" class="table table-hover table-condensed">
-                            <caption>Device List</caption>
-                            <thread>
-                                <tr>
-                                    <th>Pattern</th>
-                                    <th>Description</th>
-                                    <th>Partition</th>
-                                </tr>
-                            </thread>
-                            <tbody>
-                                {{#each devices}}
-                                <tr>
-                                    <td>{{this.pattern}}</td>
-                                    <td>{{this.description}}</td>
-                                    <td>{{this.routePartitionName}}</td>
-                                </tr>
-                                {{/each}}
-                            </tbody>
-                        </table>
-
-                        <!-- BODY - DYNAMIC TABLE - LINES -->
-                        <table id="listcss" class="table table-hover table-condensed">
-                            <caption>Line List</caption>
-                            <thread>
-                                <tr>
-                                    <th>Pattern</th>
-                                    <th>Description</th>
-                                    <th>Partition</th>
-                                </tr>
-                            </thread>
-                            <tbody>
-                                {{#each devices}}
-                                <tr>
-                                    <td>{{this.pattern}}</td>
-                                    <td>{{this.description}}</td>
-                                    <td>{{this.routePartitionName}}</td>
+                                    <td>{{this.partition}}</td>
+                                    <td>{{this.translationpattern}}</td>
+                                    <td>{{this.routepattern}}</td>
+                                    <td>{{this.line}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
