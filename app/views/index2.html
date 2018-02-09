@@ -1,0 +1,85 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <title>{{title}}</title>
+
+    <!--INCLUDE - CSS-->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+    <!--INCLUDE - JS LIBRARIES -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/angular-route.js"></script>
+    <script type="text/javascript" src="js/angular-animate.js"></script>
+    <script type="text/javascript" src="js/appscript.js"></script>
+
+</head>
+
+<body ng-app="tutorialWebApp">
+
+
+    <!--BODY - BOOTSTRAP PAGE SETUP -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div ng-include src="templates/nav.html"></div>
+
+                <!--BODY - CONTENT-->
+                <div class="row">
+                    <div class="col-md-12" class="pull-left">
+                        <form class="form-horizontal" method="post" action="/cucmmapper/submit" id="cucmmapper">
+                            <!-- INPUT - TEXT-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="cucmpub">CUCM Publisher</label>
+                                <div class="col-md-4">
+                                    <input id="cucmpub" name="cucmpub" type="text" placeholder="x.x.x.x" class="form-control input-md" required="" ng-model="cucmpub">
+                                </div>
+                            </div>
+                            <!-- INPUT - SELECT-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="cucmpub">CUCM Version</label>
+                                <div class="col-md-4">
+                                    <select class="form-control" id="cucmversion" name="cucmversion">
+                                        <option>11.5</option>
+                                        <option>11.0</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- INPUT - TEXT-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="username">AXL Username</label>
+                                <div class="col-md-4">
+                                    <input id="username" name="username" type="text" placeholder="username" class="form-control input-md" required="">
+                                </div>
+                            </div>
+                            <!-- INPUT - PASSWORD-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="password">Password</label>
+                                <div class="col-md-4">
+                                    <input id="password" name="password" type="password" placeholder="password" class="form-control input-md" required="">
+                                </div>
+                            </div>
+                            <!-- INPUT - BUTTON -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="submit"></label>
+                                <div class="col-md-4">
+                                    <button class="btn btn-primary" type="submit">Map it!</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

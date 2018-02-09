@@ -22,7 +22,7 @@ function getInstallerConfig() {
         outputDirectory: path.join(outPath, 'windows-installer'),
         exe: 'cucm-toolbox.exe',
         setupExe: 'cucm-toolbox.exe',
-        loadingGif: path.join(rootPath, 'assets/loader/44frgm.gif'),
+        loadingGif: path.join(rootPath, 'assets/loader/loaderwithtitle.gif'),
         setupIcon: path.join(rootPath, 'assets/icons/win/icon.ico')
     })
 }

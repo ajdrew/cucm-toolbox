@@ -29,8 +29,7 @@
   "devDependencies": {
     "electron-builder": "^19.45.4",
     "electron-installer-dmg": "^0.2.1",
-    "electron-packager": "^9.1.0",
-    "electron-winstaller": "^2.6.3"
+    "electron-packager": "^9.1.0"
   },
   "build": {
     "appId": "cucm-toolbox",
