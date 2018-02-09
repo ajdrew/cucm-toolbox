@@ -21,6 +21,7 @@
     "url": "https://github.com/ajdrew/cucm-toolbox.git"
   },
   "dependencies": {
+    "appdmg": "^0.5.2",
     "body-parser": "^1.18.2",
     "electron": "^1.7.9",
     "electron-winstaller": "^2.6.3"
